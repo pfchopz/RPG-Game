@@ -1,15 +1,20 @@
-# Class for attacks
-class attack:
+# Class for spells
+class spell:
     def __init__(self, name, power, cost):
         self.name = name
         self.power = power
         self.cost = cost
 
 
-# Class for attack spells
-class attackSpell(attack):
-    def __init__(self, name, power, cost):
-        super().__init__(self, name, power, cost)
+# Class for Magic Bolt
+class MagicBolt(spell):
+    def __init__(self):
+        self.name = "Magic Bolt"
+        self.power = 1
+        self.cost = 2
+
+    def __repr__(self):
+        return self.name
     
     def useSpell(self, attacker, defender):
         # Check attacker has enough mp
@@ -30,20 +35,29 @@ class attackSpell(attack):
             print('No damage was done')
 
 
-class defenseSpell(attack):
-    def __init__(self, name, power, cost):
-        super().__init__(self, name, power, cost)
+# Class for Fireball
+class Fireball(spell):
+    def __init__(self):
+        self.name = "Fireball"
+        self.power = 2
+        self.cost = 5
 
-    def useSpell(self, attacker):
+    def __repr__(self):
+        return self.name
+    
+    def useSpell(self, attacker, defender):
         # Check attacker has enough mp
         if attacker.mp >= self.cost:
+            # Calculate damage
+            damageDealt = (attacker.magicAttack * self.power) - defender.magicDefense
+            
             # Print actions
             print(f'{attacker.name} uses {self.name}.')
-            print(f'{self.name} gains {self.power} defense.')
+            print(f'{self.name} hits for {damageDealt} damage.')
 
             # Apply spell effects
             attacker.mp -= self.cost
-            attacker.defense += self.power
+            defender.hp -= damageDealt
 
         else:   # Print failed cast if not enough MP
             print(f'{attacker.name} did not have enough MP to cast {self.name}')

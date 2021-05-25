@@ -1,3 +1,5 @@
+import spells
+
 # Basic class holding stats for any character
 class Character:
     def __init__(self, name, hp, mp, attack, defense, magicAttack, magicDefense, speed):
@@ -29,6 +31,12 @@ class Player(Character):
         super().__init__(name, hp, mp, attack, defense, magicAttack, magicDefense, speed)
     
     isHuman = True
+
+    # Spell objects
+    Spells = [
+        spells.MagicBolt(),
+        spells.Fireball()
+    ]
 
 
 # Class for enemmy character

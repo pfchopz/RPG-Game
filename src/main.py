@@ -25,12 +25,14 @@ def fightStart():
     while True:
         system('cls||clear')   # Clear Screen
 
-        #Take players turn
-        takeTurn(player, enemy)
+        # Pre Fight Phase for both characters
+        playerChoice = preFightPhase(player)
+        enemyChoice = preFightPhase(enemy)
 
-        #Take enemy turn if still alive
+        # Do the Fight Phase for both characters
         if enemy.hp > 0:
-            takeTurn(enemy, player)
+            fightPhase(player, enemy, playerChoice)
+            fightPhase(enemy, player, enemyChoice)
 
         #Check if death has happened and break loop
         if player.hp <= 0:
@@ -43,27 +45,40 @@ def fightStart():
             input("\nPress Enter to continue...")
 
 
-def takeTurn(attacker, defender):
-    # Perform one attack progression
+def preFightPhase(attacker):
+    # Determine the action choice
+    actionChoice = {}
     if attacker.isHuman:
-        option = showOptions(actionList)
-    else:
-        option = 1
+        actionChoice['option'] = showOptions(actionList)
 
+        if actionChoice['option'] == 2:
+            actionChoice['spell'] = showOptions(attacker.Spells) - 1
+        elif actionChoice['option'] == 3:
+            attacker.blocking = True
+            print(f'{attacker.name} is defending.')
+    else:
+        actionChoice['option'] = 1
+
+    return actionChoice
+
+
+def fightPhase(attacker, defender, choices):
     # Take action dependent on selection
-    if option == 1:   # Action for Fight
-        defender.hp -= fight.fightChoice(attacker, defender)
-    if option == 2:   # Action for Magic
+    if choices['option'] == 1:   # Action for Fight
+        fight.fightChoice(attacker, defender)
+    if choices['option'] == 2:   # Action for Magic
+        attacker.Spells[choices['spell']].useSpell(attacker, defender)
+    if choices['option'] == 3:   # Action for Defend
         pass
-    if option == 3:   # Action for Defend
-        pass
-    if option == 4:   # Action for Run
+    if choices['option'] == 4:   # Action for Run
         pass
 
 
 def showOptions(menu):
     # Ask user to select an option from menu
     while True:
+        system('cls||clear')   # Clear Screen
+
         # Keep health totals on top
         print(f'\n{player.name} has {player.hp} HP and {player.mp} MP remaining.')
         print(f'{enemy.name} has {enemy.hp} HP and {enemy.mp} MP remaining.\n')
@@ -82,7 +97,7 @@ def showOptions(menu):
             userInput = int(userInput)
             if userInput == optionNum:
                 system('cls||clear')  # Clear Screen
-                print("\nQuitting Game.")
+                print("\nQuitting Game.\n")
                 exit()
             elif userInput > 0 and userInput <= len(menu):
                 print()

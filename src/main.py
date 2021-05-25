@@ -44,10 +44,10 @@ def fightStart():
 
         #Check if death has happened and break loop
         if player['HP'] <= 0:
-            print(f'{player["Name"]} dies.')
+            print(f'\n{player["Name"]} dies.\n')
             break
         elif enemy['HP'] <= 0:
-            print(f'{enemy["Name"]} dies.')
+            print(f'\n{enemy["Name"]} dies.\n')
             break
         else:
             input("\nPress Enter to continue...")

@@ -30,9 +30,6 @@ class Player(Character):
     
     isHuman = True
 
-    # Spells for this player
-
-
 
 # Class for enemmy character
 class Enemy(Character):

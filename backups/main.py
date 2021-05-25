@@ -1,14 +1,24 @@
 #!/usr/bin/env python3
 import fight
-import character
 
 from random import randint
 from os import system
 
 
 # Create Global Dicts of player and enemy stats
-player = character.Player("Player", 20, 10, 5, 5, 5, 5, 5)
-enemy = character.Enemy("Enemy", 10, 6, 3, 2, 3, 2, 2)
+playerStats = {'Name': "Player", 'HP': 20, 'MP': 10, 'Atk': 5, 'Def': 5, 'Mag': 5, 'MDef': 5, 'Spd': 5, 'Defend': False,
+                'Spells': {
+                    'Magic Bolt': {'Power': 1, 'MP': 2, 'Type': 'Mag'},
+                    'Fireball': {'Power': 2, 'MP': 5, 'Type': 'Mag'}
+                }
+            }
+enemyStats = {'Name': "Enemy", 'HP': 10, 'MP': 6, 'Atk': 3, 'Def': 2, 'Mag': 3, 'MDef': 2, 'Spd': 2, 'Defend': False,
+                'Spells': {
+                    'Spit': {'Power': 1, 'MP': 2, 'Type': 'Mag'},
+                    'Harden': {'Power': 1, 'MP': 2, 'Type': 'Def'}
+                 }
+            }
+player, enemy = playerStats, enemyStats
 actionList = ("Fight", "Magic", "Defend", "Run")
 
 
@@ -26,35 +36,38 @@ def fightStart():
         system('cls||clear')   # Clear Screen
 
         #Take players turn
-        takeTurn(player, enemy)
+        takeTurn(player, enemy, True)
 
         #Take enemy turn if still alive
-        if enemy.hp > 0:
+        if enemy['HP'] > 0:
             takeTurn(enemy, player)
 
         #Check if death has happened and break loop
-        if player.hp <= 0:
-            print(f'\n{player.name} dies.\n')
+        if player['HP'] <= 0:
+            print(f'\n{player["Name"]} dies.\n')
             break
-        elif enemy.hp <= 0:
-            print(f'\n{enemy.name} dies.\n')
+        elif enemy['HP'] <= 0:
+            print(f'\n{enemy["Name"]} dies.\n')
             break
         else:
             input("\nPress Enter to continue...")
 
 
-def takeTurn(attacker, defender):
+def takeTurn(attacker, defender, humanPlayer = False):
     # Perform one attack progression
-    if attacker.isHuman:
-        option = showOptions(actionList)
-    else:
+    if humanPlayer == False:
         option = 1
+        spell = randint(1, len(attacker['Spells']))
+    else:
+        option = showOptions(actionList)
+        if option == 2:
+            spell = showOptions(attacker['Spells'])
 
     # Take action dependent on selection
     if option == 1:   # Action for Fight
-        defender.hp -= fight.fightChoice(attacker, defender)
+        defender['HP'] -= fight.fightChoice(attacker, defender)
     if option == 2:   # Action for Magic
-        pass
+        defender['HP'] -= fight.magicChoice(attacker, defender, spell)
     if option == 3:   # Action for Defend
         pass
     if option == 4:   # Action for Run
@@ -65,8 +78,8 @@ def showOptions(menu):
     # Ask user to select an option from menu
     while True:
         # Keep health totals on top
-        print(f'\n{player.name} has {player.hp} HP and {player.mp} MP remaining.')
-        print(f'{enemy.name} has {enemy.hp} HP and {enemy.mp} MP remaining.\n')
+        print(f'\n{player["Name"]} has {player["HP"]} HP and {player["MP"]} MP remaining.')
+        print(f'{enemy["Name"]} has {enemy["HP"]} HP and {enemy["MP"]} MP remaining.\n')
 
         # Print all options
         print("Pick an option below.")

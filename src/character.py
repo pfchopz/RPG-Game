@@ -22,7 +22,24 @@ class Character:
         self.magicDefenseBase = magicDefense
         self.speedBase = speed
 
-    blocking = False  
+    blocking = False
+
+    def basicAttack(self, defender):
+        """Calculate damage done"""
+        if defender.blocking:
+            damageDealt = self.attack - round(defender.defense * 1.5)
+            if damageDealt <= 0:
+                damageDealt = 0
+        else:
+            damageDealt = self.attack - defender.defense
+            if damageDealt <= 1:
+                damageDealt = 1
+
+        defender.hp -= damageDealt
+
+        """Print choice to console"""
+        print(f'{self.name} uses base attack.')
+        print(f'{self.name} hits for {damageDealt} damage.')        
 
 
 # Class for player character
@@ -32,7 +49,7 @@ class Player(Character):
     
     isHuman = True
 
-    # Spell objects
+    # List of spell objects
     Spells = [
         spells.MagicBolt(),
         spells.Fireball()
@@ -45,3 +62,9 @@ class Enemy(Character):
         super().__init__(name, hp, mp, attack, defense, magicAttack, magicDefense, speed)
     
     isHuman = False
+
+    # List of spell objects
+    Spells = [
+        spells.Spit(),
+        spells.Harden()
+    ]

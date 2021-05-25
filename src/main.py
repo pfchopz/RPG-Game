@@ -26,13 +26,17 @@ def fightStart():
         system('cls||clear')   # Clear Screen
 
         # Pre Fight Phase for both characters
-        playerChoice = preFightPhase(player)
-        enemyChoice = preFightPhase(enemy)
+        playerChoice = preFightPhase(player, enemy)
+        enemyChoice = preFightPhase(enemy, player)
 
         # Do the Fight Phase for both characters
         if enemy.hp > 0:
             fightPhase(player, enemy, playerChoice)
             fightPhase(enemy, player, enemyChoice)
+
+        # Reset characters block to false
+        player.blocking = False
+        enemy.blocking = False
 
         #Check if death has happened and break loop
         if player.hp <= 0:
@@ -45,27 +49,47 @@ def fightStart():
             input("\nPress Enter to continue...")
 
 
-def preFightPhase(attacker):
+def preFightPhase(attacker, defender):
     # Determine the action choice
     actionChoice = {}
+
+    # Get choice selection
     if attacker.isHuman:
         actionChoice['option'] = showOptions(actionList)
-
         if actionChoice['option'] == 2:
-            actionChoice['spell'] = showOptions(attacker.Spells) - 1
-        elif actionChoice['option'] == 3:
-            attacker.blocking = True
-            print(f'{attacker.name} is defending.')
+            actionChoice['spell'] = showOptions(attacker.Spells) - 1     
     else:
-        actionChoice['option'] = 1
+        actionChoice['option'] = randint(1,len(actionList) - 1)
+        if actionChoice['option'] == 2:
+            actionChoice['spell'] = randint(1,len(attacker.Spells)) - 1
 
+    # Carry out defend option if that was character selection
+    if actionChoice['option'] == 3:  
+        attacker.blocking = True
+        print(f'{attacker.name} is defending.')
+
+    # Carry out run option if that was character selection
+    if actionChoice['option'] == 4:
+        chance = attacker.speed - defender.speed
+        print(f'{attacker.name} is attempting to run.')
+        if chance > 0:
+            if randint(0,1) > 0:
+                system('cls||clear')  # Clear Screen
+                print(f'\n{attacker.name} successfully escaped the fight.\n')
+                exit()
+            else:
+                print(f'{attacker.name} failed to escape the fight.')
+        else:
+            print(f'{attacker.name} is too slow to escape.')
+
+    # Return actionChoice dictionary for use during fight phase
     return actionChoice
 
 
 def fightPhase(attacker, defender, choices):
     # Take action dependent on selection
     if choices['option'] == 1:   # Action for Fight
-        fight.fightChoice(attacker, defender)
+        attacker.basicAttack(defender)
     if choices['option'] == 2:   # Action for Magic
         attacker.Spells[choices['spell']].useSpell(attacker, defender)
     if choices['option'] == 3:   # Action for Defend

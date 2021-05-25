@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import fight
 import character
 
 from random import randint

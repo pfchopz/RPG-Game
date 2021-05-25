@@ -33,8 +33,8 @@ class MagicBolt(spell):
             defender.hp -= damageDealt
 
         else:   # Print failed cast if not enough MP
-            print(f'{attacker.name} did not have enough MP to cast {self.name}')
-            print('No damage was done')
+            print(f'{attacker.name} did not have enough MP to cast {self.name}.')
+            print('No damage was done.')
 
 
 # Class for Fireball
@@ -64,8 +64,8 @@ class Fireball(spell):
             defender.hp -= damageDealt
 
         else:   # Print failed cast if not enough MP
-            print(f'{attacker.name} did not have enough MP to cast {self.name}')
-            print('No damage was done')
+            print(f'{attacker.name} did not have enough MP to cast {self.name}.')
+            print('No damage was done.')
 
 
 # Class for Spit
@@ -89,14 +89,17 @@ class Spit(spell):
             # Print actions
             print(f'{attacker.name} uses {self.name}.')
             print(f'{self.name} hits for {damageDealt} damage.')
+            if not defender.isPoisoned:
+                print(f'{defender.name} is now poisoned!')
 
             # Apply spell effects
             attacker.mp -= self.cost
             defender.hp -= damageDealt
+            defender.isPoisoned = True
 
         else:   # Print failed cast if not enough MP
-            print(f'{attacker.name} did not have enough MP to cast {self.name}')
-            print('No damage was done')
+            print(f'{attacker.name} did not have enough MP to cast {self.name}.')
+            print('No damage was done.')
 
 
 # Class for Harden
@@ -121,5 +124,5 @@ class Harden(spell):
             defender.defense += self.power
 
         else:   # Print failed cast if not enough MP
-            print(f'{attacker.name} did not have enough MP to cast {self.name}')
-            print('No damage was done')
+            print(f'{attacker.name} did not have enough MP to cast {self.name}.')
+            print('No buff was applied.')

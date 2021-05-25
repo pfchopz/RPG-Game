@@ -37,7 +37,16 @@ def fightStart():
         player.blocking = False
         enemy.blocking = False
 
-        #Check if death has happened and break loop
+        # Perform status effects
+        print()
+        if player.isPoisoned:
+            player.takePoisonDamage()
+            print(f'{player.name} takes poison 1 poison damage')
+        if enemy.isPoisoned:
+            enemy.takePoisonDamage()
+            print(f'{enemy.name} takes poison 1 poison damage')
+
+        # Check if death has happened and break loop
         if player.hp <= 0:
             print(f'\n{player.name} dies.\n')
             break

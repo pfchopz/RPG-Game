@@ -23,6 +23,7 @@ class Character:
         self.speedBase = speed
 
     blocking = False
+    isPoisoned = False
 
     def basicAttack(self, defender):
         """Calculate damage done"""
@@ -39,7 +40,10 @@ class Character:
 
         """Print choice to console"""
         print(f'{self.name} uses base attack.')
-        print(f'{self.name} hits for {damageDealt} damage.')        
+        print(f'{self.name} hits for {damageDealt} damage.')
+
+    def takePoisonDamage(self):
+        self.hp -= 1
 
 
 # Class for player character

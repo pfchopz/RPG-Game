@@ -26,7 +26,7 @@ class Character:
     poisonCounter = 0
 
     def basicAttack(self, defender):
-        """Calculate damage done"""
+        # Calculate damage done
         if defender.blocking:
             damageDealt = self.attack - round(defender.defense * 1.5)
             if damageDealt <= 0:
@@ -38,13 +38,13 @@ class Character:
 
         defender.hp -= damageDealt
 
-        """Print choice to console"""
+        # Print choice to console
         print(f'{self.name} uses base attack.')
         print(f'{self.name} hits for {damageDealt} damage.')
 
     def takePoisonDamage(self):
         if self.poisonCounter > 0:
-            print(f'{self.name} takes poison 1 poison damage')
+            print(f'{self.name} takes 1 poison damage.')
             if self.hp < 10:
                 self.hp -= 1
             else:

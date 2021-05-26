@@ -49,8 +49,7 @@ class Character:
                 self.hp -= 1
             else:
                 self.hp -= round((self.hp/10))
-        self.poisonCounter -= 1
-        
+        self.poisonCounter -= 1      
 
 
 # Class for player character

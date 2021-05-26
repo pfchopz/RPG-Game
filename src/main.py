@@ -16,38 +16,38 @@ def main():
     print("\n\n\n\nMONSTER FIGHT: DON'T LOSE EDITION\n\n\n")
     input("\nPress Enter to continue...")
 
-    fightStart()
+    fightStart(player, enemy)
 
 
-def fightStart():
+def fightStart(attacker, defender):
     # Fight loop
     while True:
         system('cls||clear')   # Clear Screen
 
         # Pre Fight Phase for both characters
-        playerChoice = preFightPhase(player, enemy)
-        enemyChoice = preFightPhase(enemy, player)
+        attackerChoice = preFightPhase(attacker, defender)
+        defenderChoice = preFightPhase(defender, attacker)
 
         # Do the Fight Phase for both characters
         if enemy.hp > 0:
-            fightPhase(player, enemy, playerChoice)
-            fightPhase(enemy, player, enemyChoice)
+            fightPhase(attacker, defender, attackerChoice)
+            fightPhase(defender, attacker, defenderChoice)
 
         # Reset characters block to false
-        player.blocking = False
-        enemy.blocking = False
+        attacker.blocking = False
+        defender.blocking = False
 
         # Perform status effects when applicable
         print()
-        player.takePoisonDamage()
-        enemy.takePoisonDamage()
+        attacker.takePoisonDamage()
+        defender.takePoisonDamage()
 
         # Check if death has happened and break loop
-        if player.hp <= 0:
-            print(f'\n{player.name} dies.\n')
+        if attacker.hp <= 0:
+            print(f'\n{attacker.name} dies.\n')
             break
-        elif enemy.hp <= 0:
-            print(f'\n{enemy.name} dies.\n')
+        elif defender.hp <= 0:
+            print(f'\n{defender.name} dies.\n')
             break
         else:
             input("\nPress Enter to continue...")

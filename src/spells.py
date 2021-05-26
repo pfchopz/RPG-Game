@@ -89,13 +89,13 @@ class Spit(spell):
             # Print actions
             print(f'{attacker.name} uses {self.name}.')
             print(f'{self.name} hits for {damageDealt} damage.')
-            if not defender.isPoisoned:
+            if defender.poisonCounter == 0:
                 print(f'{defender.name} is now poisoned!')
 
             # Apply spell effects
             attacker.mp -= self.cost
             defender.hp -= damageDealt
-            defender.isPoisoned = True
+            defender.poisonCounter = 3
 
         else:   # Print failed cast if not enough MP
             print(f'{attacker.name} did not have enough MP to cast {self.name}.')

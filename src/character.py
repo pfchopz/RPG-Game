@@ -23,7 +23,7 @@ class Character:
         self.speedBase = speed
 
     blocking = False
-    isPoisoned = False
+    poisonCounter = 0
 
     def basicAttack(self, defender):
         """Calculate damage done"""
@@ -43,7 +43,14 @@ class Character:
         print(f'{self.name} hits for {damageDealt} damage.')
 
     def takePoisonDamage(self):
-        self.hp -= 1
+        if self.poisonCounter > 0:
+            print(f'{self.name} takes poison 1 poison damage')
+            if self.hp < 10:
+                self.hp -= 1
+            else:
+                self.hp -= round((self.hp/10))
+        self.poisonCounter -= 1
+        
 
 
 # Class for player character
@@ -60,7 +67,7 @@ class Player(Character):
     ]
 
 
-# Class for enemmy character
+# Class for enemy character
 class Enemy(Character):
     def __init__(self, name, hp, mp, attack, defense, magicAttack, magicDefense, speed):
         super().__init__(name, hp, mp, attack, defense, magicAttack, magicDefense, speed)
